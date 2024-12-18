@@ -47,58 +47,60 @@ with tab_input:
 
     sel1, sel2, sel3, sel4, sel5 = st.columns([1,1,1,1,1])
     
-    with sel1:
+        with sel1:
         st.subheader('Stama 1')
-        codici_1 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA 1') ].Particolare.unique()
+        codici_1 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA1') ].Particolare.unique()
         pn1 = st.selectbox("Selezionare il codice per STAMA 1", options=codici_1)
         versioni1 = db[(db.Isola =='2AD') & (db.Particolare == pn1)].Versione.astype(str).unique()
         ver1 = versioni1[0]
         if len(versioni1) != 1:
             st.warning('È presente più di una versione di ciclo')
             ver1 = st.selectbox('Selezionare la versione desiderata', options=versioni1, key='1')
-        chiavi.append(f'2ADSTAMA 1{pn1}{ver1}')
+        chiavi.append(f'2ADSTAMA1{pn1}{ver1}')
     with sel2: 
         st.subheader('Stama 2')
-        codici_2 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA 2') ].Particolare.unique()
+        codici_2 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA2') ].Particolare.unique()
         pn2 = st.selectbox("Selezionare il codice per STAMA 2", options=codici_2)
         versioni2 = db[(db.Isola =='2AD') & (db.Particolare == pn2)].Versione.astype(str).unique()
         ver2 = versioni2[0]
         if len(versioni2) != 1:
             st.warning('È presente più di una versione di ciclo')
             ver2 = st.selectbox('Selezionare la versione desiderata', options=versioni2, key='2')
-        chiavi.append(f'2ADSTAMA 2{pn2}{ver2}')
+        chiavi.append(f'2ADSTAMA2{pn2}{ver2}')
     with sel3:   
         st.subheader('Stama 3')
-        codici_3 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA 3') ].Particolare.unique()
+        codici_3 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA3') ].Particolare.unique()
         pn3 = st.selectbox("Selezionare il codice per STAMA 3", options=codici_3)
         versioni3 = db[(db.Isola =='2AD') & (db.Particolare == pn3)].Versione.astype(str).unique()
         ver3 = versioni3[0]
         if len(versioni3) != 1:
             st.warning('È presente più di una versione di ciclo')
             ver3 = st.selectbox('Selezionare la versione desiderata', options=versioni3, key='3')
-        chiavi.append(f'2ADSTAMA 3{pn3}{ver3}')
+        chiavi.append(f'2ADSTAMA3{pn3}{ver3}')
 
     with sel4:   
         st.subheader('Stama 4')
-        codici_4 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA 4') ].Particolare.unique()
+        codici_4 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA4') ].Particolare.unique()
         pn4 = st.selectbox("Selezionare il codice per STAMA 4", options=codici_4)
-        versioni4 = db[(db.Isola =='2AD') & (db.Particolare == pn4)].Versione.astype(str).unique()
-        ver4 = versioni4[0]
-        if len(versioni4) != 1:
-            st.warning('È presente più di una versione di ciclo')
-            ver4 = st.selectbox('Selezionare la versione desiderata', options=versioni4, key='4')
-        chiavi.append(f'2ADSTAMA 4{pn4}{ver4}')
+        if pn4:
+            versioni4 = db[(db.Isola =='2AD') & (db.Particolare == pn4)].Versione.astype(str).unique()
+            ver4 = versioni4[0]
+            if len(versioni4) != 1:
+                st.warning('È presente più di una versione di ciclo')
+                ver4 = st.selectbox('Selezionare la versione desiderata', options=versioni4, key='4')
+            chiavi.append(f'2ADSTAMA4{pn4}{ver4}')
 
     with sel5:   
         st.subheader('Stama 5')
-        codici_5 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA 5') ].Particolare.unique()
+        codici_5 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA5') ].Particolare.unique()
         pn5 = st.selectbox("Selezionare il codice per STAMA 5", options=codici_5)
         versioni5 = db[(db.Isola =='2AD') & (db.Particolare == pn5)].Versione.astype(str).unique()
         ver5 = versioni5[0]
         if len(versioni5) != 1:
             st.warning('È presente più di una versione di ciclo')
             ver5 = st.selectbox('Selezionare la versione desiderata', options=versioni5, key='5')
-        chiavi.append(f'2ADSTAMA 5{pn5}{ver5}')
+        chiavi.append(f'2ADSTAMA5{pn5}{ver5}')
+
 
     db_work1 = db[[any(chiave in check for chiave in chiavi) for check in db.key]]
     chiavi2 = []
