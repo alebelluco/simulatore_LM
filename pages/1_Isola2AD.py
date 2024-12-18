@@ -47,7 +47,7 @@ with tab_input:
 
     sel1, sel2, sel3, sel4, sel5 = st.columns([1,1,1,1,1])
     
-        with sel1:
+    with sel1:
         st.subheader('Stama 1')
         codici_1 = db[(db.Isola == '2AD') & (db.Macchina == 'STAMA1') ].Particolare.unique()
         pn1 = st.selectbox("Selezionare il codice per STAMA 1", options=codici_1)
