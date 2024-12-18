@@ -16,7 +16,7 @@ layout_input = ['Isola','Macchina','Particolare','Cat_dati','Subcat_dati','Dato'
 
 tab_input, tab_risultati, tab_gantt = st.tabs(['Input','Risultati','Gantt'])
 
-st.sidebar.header("Isola 1 AD")
+st.sidebar.header("Isola 1 B AD")
 with tab_input:
 
     env = simpy.Environment()
