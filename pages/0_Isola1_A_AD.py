@@ -9,7 +9,7 @@ from des import des
 
 st.set_page_config(page_title="Isola 1 AD", layout='wide')
 my_cmap = plt.get_cmap("Reds")
-st.title("Isola 1")
+st.title("Isola 1 A")
 st.subheader(':red[Linea AD]', divider='grey')
 
 layout_input = ['Isola','Macchina','Particolare','Cat_dati','Subcat_dati','Dato','Valore','Note']
