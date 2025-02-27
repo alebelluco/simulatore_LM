@@ -128,7 +128,7 @@ with tab_input:
 
 
     st.divider()
-    st.write(macchine)
+    
     machines = []
     k=0
     for mac in macchine:
