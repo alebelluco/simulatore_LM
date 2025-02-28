@@ -7,19 +7,19 @@ import plotly_express as px
 import math
 from des import des
 
-st.set_page_config(page_title="Isole 4-5 AD", layout='wide')
+st.set_page_config(page_title="Isole 4A AD", layout='wide')
 my_cmap = plt.get_cmap("Reds")
-st.title("Isola 4")
+st.title("Isola 4A AD")
 st.subheader(':red[Linea AD]', divider = 'grey')
 tab_input, tab_risultati, tab_gantt = st.tabs(['Input','Risultati','Gantt'])
 
 st.sidebar.header("Isola 4 AD")
 
 layout_input = ['Isola','Macchina','Particolare','Cat_dati','Dato','Valore','Note']
-isola = '4AD'
-m1 = 'Tacchella 2'
-m2 = 'Tacchella 3'
-m3 = 'Tacchella 4'
+isola = '4A'
+m1 = 'Junker 2'
+m2 = 'Tacchella 11999'
+m3 = 'Tacchella 11129'
 
 with tab_input:
 
