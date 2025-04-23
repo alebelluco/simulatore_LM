@@ -2387,8 +2387,9 @@ class Machine_isola_Zeiss(object):
         while True:
             adjustment = 0           
             with self.op_conduttore.request(priority=0) as req:
-                    yield req                  
-                    yield self.env.timeout(self.cs+0.11)  # x2 perchè lo spostamento dura uguale ----------------------modifica: self.cs + self.spostamento (che non esiste ad oggi negli input)
+                    yield req
+                    yield self.env.timeout(0)
+                    #yield self.env.timeout(self.cs+0.11)  # x2 perchè lo spostamento dura uguale ----------------------modifica: self.cs + self.spostamento (che non esiste ad oggi negli input)
                     
                     op =  list(self.link_op.keys())[list(self.link_op.values()).index(self.op_conduttore)]
                     self.log.append('{:0.1f} | {} | Inizio carico-scarico | {}'.format(self.env.now-self.cs, self.name,op))  
