@@ -177,7 +177,7 @@ with tab_input:
     for mac in macchine:
         isola, part_in, part_out, name_machine, part,tempo_ciclo, cs, batch, cond, c_ut,freq_eq, t_eq, list_controlli, list_turno, durata_cor, periodo_cor, op_corr,durata_SAP, periodo_SAP, op_sap,durata_part_in, periodo_part_in, op_in,durata_part_out, periodo_part_out, op_out, robot_zeiss, robot_btw = des.carica_info_macchina(mac, db_utensili)
         if name_machine == 'Zeiss':
-            macchina = des.Machine_isola_Zeiss(env,
+            macchina = des.Machine_isola_Zeiss2(env,
                                 name_machine,
                                 part,
                                 tempo_ciclo,
