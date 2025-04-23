@@ -214,7 +214,7 @@ with tab_input:
                                 c_ut,
                                 k*10, freq_eq, t_eq, 
                                 operatore1 ,operatore2,
-                                0, list_controlli[0][0], list_controlli[0][1], list_controlli[0][2],
+                                k, list_controlli[0][0], list_controlli[0][1], list_controlli[0][2],
                                 k,list_controlli[1][0], list_controlli[1][1], list_controlli[1][2],
                                 k,list_controlli[2][0], list_controlli[2][1], list_controlli[2][2],
                                 k,list_controlli[3][0], list_controlli[3][1], list_controlli[3][2],
