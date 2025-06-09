@@ -73,6 +73,12 @@ with tab_input:
             codici_5 = db[(db.Isola == '4BAM') & (db.Macchina == 'Junker3') ].Particolare.unique()
             pn5 = st.selectbox("Selezionare il codice per Junker3", options=codici_5)
             chiavi.append(f'4BAMJunker3{pn5}')
+    with dxx1:   
+            codici_8 = list(db[(db.Isola == '4BAM') & (db.Macchina == 'Junker4') ].Particolare.unique())
+            codici_8.append("Non pianificata")
+            pn8 = st.selectbox("Selezionare il codice per Junker4", options=codici_8)
+            if pn8 != "Non pianificata":
+                chiavi.append(f'4BAMJunker3{pn8}')
 
     st.divider()
     st.subheader(':red[Cemb4 + Lasit1]')
