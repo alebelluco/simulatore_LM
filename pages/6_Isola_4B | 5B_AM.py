@@ -183,7 +183,7 @@ with tab_input:
     for mac in macchine:
         isola, part_in, part_out, name_machine, part,tempo_ciclo, cs, batch, cond, c_ut,freq_eq, t_eq, list_controlli, list_turno, durata_cor, periodo_cor, op_corr,durata_SAP, periodo_SAP, op_sap,durata_part_in, periodo_part_in, op_in,durata_part_out, periodo_part_out, op_out, robot_zeiss, robot_btw = des.carica_info_macchina(mac, db_utensili)
         if name_machine == 'Zeiss':
-            macchina = des.Machine_isola_Zeiss2(env,
+            macchina = des.Machine_isola_Zeiss(env,
                                 name_machine,
                                 part,
                                 tempo_ciclo,
@@ -220,7 +220,7 @@ with tab_input:
                                 c_ut,
                                 k*10, freq_eq, t_eq, 
                                 operatore1 ,operatore2,
-                                k, list_controlli[0][0], list_controlli[0][1], list_controlli[0][2],
+                                0, list_controlli[0][0], list_controlli[0][1], list_controlli[0][2],
                                 k,list_controlli[1][0], list_controlli[1][1], list_controlli[1][2],
                                 k,list_controlli[2][0], list_controlli[2][1], list_controlli[2][2],
                                 k,list_controlli[3][0], list_controlli[3][1], list_controlli[3][2],
@@ -397,7 +397,7 @@ with tab_risultati:
     #st.write(log_operatori)
     #st.write(frame_prod)
     #st.write(log_operatori)
-    
+
 with tab_gantt:
 # costruzione Gantt macchine
     
@@ -491,3 +491,4 @@ with tab_gantt:
 
 
     st.stop()
+
