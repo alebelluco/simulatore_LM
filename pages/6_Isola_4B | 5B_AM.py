@@ -120,9 +120,9 @@ with tab_input:
     sx, cx, dx, dxx = st.columns([1,1,1,1])
 
     with sx:
-        codici_8 = db[(db.Isola == '5BAM') & (db.Macchina == 'Zeiss') ].Particolare.unique()
-        pn8 = st.selectbox("Selezionare il codice per Zeiss", options=codici_8)
-        chiavi2.append(f'5BAMZeiss{pn8}')
+        codici_88 = db[(db.Isola == '5BAM') & (db.Macchina == 'Zeiss') ].Particolare.unique()
+        pn88 = st.selectbox("Selezionare il codice per Zeiss", options=codici_88)
+        chiavi2.append(f'5BAMZeiss{pn88}')
     
     st.divider()
 
