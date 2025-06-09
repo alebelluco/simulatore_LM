@@ -78,7 +78,7 @@ with tab_input:
             codici_8.append("Non pianificata")
             pn8 = st.selectbox("Selezionare il codice per Junker4", options=codici_8)
             if pn8 != "Non pianificata":
-                chiavi.append(f'4BAMJunker3{pn8}')
+                chiavi.append(f'4BAMJunker4{pn8}')
 
     st.divider()
     st.subheader(':red[Cemb4 + Lasit1]')
