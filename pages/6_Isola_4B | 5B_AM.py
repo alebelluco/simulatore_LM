@@ -397,8 +397,7 @@ with tab_risultati:
     #st.write(log_operatori)
     #st.write(frame_prod)
     #st.write(log_operatori)
-    st.write(frame_cs)
-
+    
 with tab_gantt:
 # costruzione Gantt macchine
     
