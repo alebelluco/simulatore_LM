@@ -210,7 +210,7 @@ with tab_input:
             machines.append(macchina)
 
         else:  
-            macchina = des.Machine_isola_2(env,
+            macchina = des.Machine_isola5AM(env,
                                 name_machine,
                                 part,
                                 tempo_ciclo,
