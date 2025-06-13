@@ -262,7 +262,7 @@ with tab_risultati:
         for macchina in machines:
             #st.write('Macchina: {} | Codice: {} | Output per turno: {:0.0f} | Ta_isola5: {:0.2f} | Ta_isola4: {:0.2f} '.format(macchina.name, macchina.part, macchina.parts_made/turni, (turni*450)/macchina.parts_made/(3), (turni*450)/macchina.parts_made/(2)))
             st.write(':red[Macchina: {}]'.format(macchina.name))
-            st.write('Codice: _{}_   | Output per turno: :red[{:0.0f}] | Ta:{:0.2f} '.format(macchina.part, macchina.parts_made/turni, n_operatori*450/(macchina.parts_made/turni)/prodotti_finiti))#-------------
+            st.write('Codice: _{}_   | Output per turno: :red[{:0.1f}] | Ta:{:0.2f} '.format(macchina.part, macchina.parts_made/turni, n_operatori*450/(macchina.parts_made/turni)/prodotti_finiti))#-------------
 
         saturazione_1 = 0
         saturazione_2 = 0
@@ -397,7 +397,7 @@ with tab_risultati:
     #st.write(log_operatori)
     #st.write(frame_prod)
     #st.write(log_operatori)
-    st.write(log_operatori)
+    #st.write(log_operatori)
 
 with tab_gantt:
 # costruzione Gantt macchine
