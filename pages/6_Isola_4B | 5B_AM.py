@@ -6,6 +6,9 @@ import numpy as np
 import plotly_express as px
 import math
 from des import des
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
 
 # IMPOSTAZIONI PAGINA
 # ============================================================================================================================== | Impostazioni pagina
@@ -262,7 +265,7 @@ with tab_risultati:
         for macchina in machines:
             #st.write('Macchina: {} | Codice: {} | Output per turno: {:0.0f} | Ta_isola5: {:0.2f} | Ta_isola4: {:0.2f} '.format(macchina.name, macchina.part, macchina.parts_made/turni, (turni*450)/macchina.parts_made/(3), (turni*450)/macchina.parts_made/(2)))
             st.write(':red[Macchina: {}]'.format(macchina.name))
-            st.write('Codice: _{}_   | Output per turno: :red[{:0.1f}] | Ta:{:0.2f} '.format(macchina.part, macchina.parts_made/turni, n_operatori*450/(macchina.parts_made/turni)/prodotti_finiti))#-------------
+            st.write('Codice: _{}_   | Output per turno: :red[{:0.0f}] | Ta:{:0.2f} '.format(macchina.part, macchina.parts_made/turni, n_operatori*450/(macchina.parts_made/turni)/prodotti_finiti))#-------------
 
         saturazione_1 = 0
         saturazione_2 = 0
@@ -291,18 +294,36 @@ with tab_risultati:
 
 # Costruzione dataframe per Gantt-------------------------------------------------------------------------------------------------------------------------------------------
 
-    incluso = ['Controllo','controllo','CONTROLLO',
-            'Trasporto','trasporto','TRASPORTO',
-            #'Correzione','correzione','CORREZIONE',
-            'Prelievo','prelievo','PRELIEVO',
-            'Sap','SAP','sap']
+    incluso = [
+        'Controllo',
+        'controllo',
+        'CONTROLLO',
+        'Trasporto',
+        'trasporto',
+        'TRASPORTO',
+        'Prelievo',
+        'prelievo',
+        'PRELIEVO',
+        'Sap',
+        'SAP',
+        'sap']
 
-    #incluso_cs = ['carico','Avvio']
-    incluso_cs = []
-    incluso_cu = ['utensile']
+    incluso_cs = [
+        'carico',
+        'Avvio'
+        ]
+    #incluso_cs = []
+    incluso_cu = [
+        'utensile'
+        ]
 
-    escluso = ['Pronto','pronto','PRONTO',
-            'Correzione','correzione','CORREZIONE',
+    escluso = [
+            'Pronto',
+            'pronto',
+            'PRONTO',
+            'Correzione',
+            'correzione',
+            'CORREZIONE'
             ]
 
     filtro_fine = ['Fine','fine','FINE']
@@ -340,9 +361,7 @@ with tab_risultati:
             frame_op['Descrizione'] = frame_op['Descrizione'].str[8:]
             frame_op['Macchina'] = macchinario.name
             frame_op['operatore1'] = np.where(frame_op.Part == ' operatore1', frame_op.Durata, 0)
-            frame_op['robot'] = np.where(frame_op.Part == ' robot', frame_op.Durata, 0)
-            frame_op['robot2'] = np.where(frame_op.Part == ' robot2', frame_op.Durata, 0)
-            frame_op['robot3'] = np.where(frame_op.Part == ' robot3', frame_op.Durata, 0)
+            frame_op['operatore2'] = np.where(frame_op.Part == ' operatore2', frame_op.Durata, 0)
             frame_op['Label'] = frame_op.Macchina + " | " + frame_op.Descrizione 
             log_operatori.append(frame_op)
             
@@ -359,11 +378,9 @@ with tab_risultati:
             frame_cs['Macchina'] = macchinario.name
             
             frame_cs['operatore1'] = np.where(frame_cs.Part == ' operatore1', frame_cs.Durata, 0)
-            frame_cs['robot'] = np.where(frame_cs.Part == ' robot', frame_cs.Durata, 0)
-            frame_cs['robot2'] = np.where(frame_cs.Part == ' robot2', frame_cs.Durata, 0)
-            frame_cs['robot3'] = np.where(frame_cs.Part == ' robot3', frame_cs.Durata, 0)
+            frame_cs['operatore2'] = np.where(frame_cs.Part == ' operatore2', frame_cs.Durata, 0)
             frame_cs['Label'] = frame_cs.Macchina + " | " + frame_cs.Descrizione 
-            frame_cs = frame_cs[(frame_cs.operatore1!=0)|(frame_cs.robot!=0) | (frame_cs.robot2!=0) | (frame_cs.robot3!=0) ]
+            frame_cs = frame_cs[(frame_cs.operatore1!=0)|(frame_cs.operatore2!=0)]
 
             log_operatori.append(frame_cs)
 
@@ -382,11 +399,9 @@ with tab_risultati:
             frame_cu['Macchina'] = macchinario.name
             
             frame_cu['operatore1'] = np.where(frame_cu.Part == ' operatore1', frame_cu.Durata, 0)
-            frame_cu['robot'] = np.where(frame_cu.Part == ' robot', frame_cu.Durata, 0)
-            frame_cu['robot2'] = np.where(frame_cu.Part == ' robot2', frame_cu.Durata, 0)
-            frame_cu['robot3'] = np.where(frame_cu.Part == ' robot3', frame_cu.Durata, 0)
+            frame_cu['operatore2'] = np.where(frame_cu.Part == ' operatore2', frame_cu.Durata, 0)
             frame_cu['Label'] = frame_cu.Macchina + " | " + frame_cu.Descrizione 
-            frame_cu = frame_cu[(frame_cu.operatore1!=0)|(frame_cu.robot!=0) | (frame_cu.robot2!=0)]
+            frame_cu = frame_cu[(frame_cu.operatore1!=0)|(frame_cu.operatore2!=0)]
             log_operatori.append(frame_cu)
 
         except Exception  as e:
@@ -397,7 +412,6 @@ with tab_risultati:
     #st.write(log_operatori)
     #st.write(frame_prod)
     #st.write(log_operatori)
-    #st.write(log_operatori)
 
 with tab_gantt:
 # costruzione Gantt macchine
@@ -406,14 +420,10 @@ with tab_gantt:
     st.divider()
     intervallo = tempo[1] - tempo[0]
     gantt_op = pd.concat([logs for logs in log_operatori] )
+    gantt_op = gantt_op[gantt_op.Durata != 0] #per togliere righe dummy
     gantt_macchine = pd.concat([logs for logs in log_macchine])
 
 # stampe di controllo
-
-    #st.dataframe(gantt_op, width=1500)
-    #st.dataframe(gantt_macchine, width=1500)
-    #st.write(log_operatori[2])
-    #st.write(log_macchine)
 
 # --------------------------------------------
 
@@ -422,74 +432,69 @@ with tab_gantt:
     gantt_macchine = gantt_macchine.reset_index(drop=True)
     gantt_op = gantt_op[(gantt_op.Minuto > tempo[0]) & (gantt_op.Minuto < tempo[1]) ]
     gantt_op = gantt_op.sort_values(by=['Part','Minuto'])    
-
     unique = gantt_macchine.Macchina.unique()
 
-    plt.style.use('dark_background')
-    fig, ax = plt.subplots(figsize=(20,5))
-    y_pos = np.arange(0,len(gantt_macchine), step=1)
 
-    for i in range(len(unique)):
-        
-        colonna = f'M{i+1}' 
-        #ax.barh(i*2, gantt_macchine.Minuto, color='black')
-        #ax.barh(y_pos, gantt_macchine[colonna], left=gantt_macchine.Minuto, color=my_cmap(60*i))  
-        ax.barh(i*2, gantt_macchine[colonna], left=gantt_macchine.Minuto, color=my_cmap(30*i))  
-        ax.text(tempo[0]-15, i*2+0.1, unique[i], fontsize=12, color=my_cmap(30*i))
+    test_gantt = gantt_macchine[gantt_macchine.Descrizione == 'Machining']
+    nomi_macchine = [macchina['Nome'] for macchina in macchine]
+    dict_color = {}
 
-    ax.invert_yaxis()
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-    ax.grid('on', linewidth=0.2)
-    ax.tick_params(right=False, left=False, axis='y', color='r', length=16,grid_color='none')
-    ax.tick_params(axis='x', color='black', length=4, direction='in', width=4,labelcolor='w', grid_color='grey',labelsize=10)
-    ax.tick_params(axis='y', color='black', length=4, direction='in', width=4,labelcolor='black')
-    plt.xticks(np.arange(tempo[0],tempo[1],step=(intervallo/10)))
-    plt.yticks(np.arange(0,len(unique)*2 ,step=100))
-    plt.xlim(tempo[0]-20,tempo[1]+20)
+    for i in range(len(nomi_macchine)):
+        dict_color[nomi_macchine[i]]=str(my_cmap((i+1)*30))
 
-    # costruzione Gantt operatori
+    selected = st.multiselect('Selezionare macchine | nessuna macchina selezionata = Tutte le macchine', options=nomi_macchine)
+    if selected == []:
+        selected = nomi_macchine
 
-    fig2, ax2 = plt.subplots(figsize=(20,10))
-    y_pos2 = np.arange(0,len(gantt_op), step=1)
-    operatori = ['operatore1','robot', 'robot2', 'robot3']
-    colori = {'operatore1': my_cmap(20), 'robot': my_cmap(60), 'robot2':my_cmap(100), 'robot3':my_cmap(140)}
+    test_gantt['Macchina'] = [macchina.replace(' ','') for macchina in test_gantt.Macchina]
+    test_gantt = test_gantt[[any(macc in check for macc in selected) for check in test_gantt.Macchina]]
+    fig3 = make_subplots(
+    rows=2, cols=1,
+    shared_xaxes=True,  # condividi l'asse X
+    vertical_spacing=0.05,
+    row_heights=[0.98, 0.02] 
+   )
 
-    for operatore in operatori:
-        ax2.barh(y_pos2, gantt_op.Minuto, color='black')
-        ax2.barh(y_pos2, gantt_op[operatore], left=gantt_op.Minuto, color=colori[operatore])
-
-    gantt_op['x_pos'] = gantt_op['Minuto'] + gantt_op['Durata'] + 1
-    for i in range(len(gantt_op)):
-        x_pos = gantt_op.x_pos.iloc[i]
-        ax2.text(x_pos, i, gantt_op.Label.iloc[i], fontsize=10, fontname='Avenir')#backgroundcolor='black')
-
-    #ax2.text(tempo[0]-15, 2, 'Operatore1',color= colori['operatore1'], fontsize=10)
-    #ax2.text(tempo[0]-15, 4, 'Robot', color=colori['robot'], fontsize=10)
-    #ax2.text(tempo[0]-15, 6, 'Robot2', color=colori['robot2'], fontsize=10)
-    #ax2.text(tempo[0]-15, 8, 'Robot3', color=colori['robot3'], fontsize=10)
-
-    ax2.invert_yaxis()
-    ax2.spines['top'].set_visible(False)
-    ax2.spines['right'].set_visible(False)
-    ax2.spines['bottom'].set_visible(False)
-    ax2.spines['left'].set_visible(False)
-    ax2.grid('on', linewidth=0.2)
-    ax2.tick_params(right=False, left=False, axis='y', color='r', length=16,grid_color='none')
-    ax2.tick_params(axis='x', color='black', length=4, direction='in', width=4,labelcolor='w', grid_color='grey',labelsize=10)
-    ax2.tick_params(axis='y', color='black', length=4, direction='in', width=4,labelcolor='black')
-    plt.xticks(np.arange(tempo[0],tempo[1],step=(intervallo/10)))
-    plt.yticks(np.arange(0,len(gantt_op),step=20))
-    plt.xlim(tempo[0]-20,tempo[1]+20)
-
-    st.subheader('Gantt macchine')
-    st.pyplot(fig)
-
-    st.subheader('Gantt operatori')
-    st.pyplot(fig2)
+    fig3.add_trace(
+        go.Bar(
+            y=test_gantt['Macchina'],
+            x=test_gantt['Durata'],
+            base=test_gantt['Minuto'],
+            orientation='h',
+            marker_color = [('rgba' + dict_color[macc]) for macc in test_gantt.Macchina]
+        )
+    )
+    fig3.update_yaxes(autorange="reversed")
+    fig3.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='gray')
 
 
-    st.stop()
+    colori = {'operatore1': 'rgba'+ str(my_cmap(20)), 'operatore2': 'rgba'+str(my_cmap(60))}
+    g_op = gantt_op.copy().reset_index()
+    g_op['Part']=[op.replace(' ','') for op in g_op.Part]
+    #g_op = g_op[[any(macc in check for macc in selected) for check in g_op.Macchina]]
+    #g_op
+
+    fig4 = go.Figure()
+
+    fig3.add_trace(
+        go.Bar(
+            y=g_op.index,
+            x=g_op['Durata'],
+            base=g_op['Minuto'],
+            orientation='h',
+            marker_color = [colori[op] for op in g_op.Part],
+            text=g_op.Label
+            
+        )
+    )
+    fig3.update_yaxes(autorange="reversed")
+    fig3.update_xaxes(showgrid=True, gridwidth=0.2, gridcolor='gray', showticklabels=True)
+    fig3.update_layout(
+        height=1500
+    )
+
+    st.plotly_chart(fig3)
+    st.divider()
+    st.subheader('Dettaglio attività operatori')
+    st.dataframe(gantt_op.drop(columns=['operatore1','operatore2','Label']).rename(columns={'Part':'Operatore'}))
 
