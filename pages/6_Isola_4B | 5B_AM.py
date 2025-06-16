@@ -483,7 +483,8 @@ with tab_gantt:
             x=g_op['Durata'],
             base=g_op['Minuto'],
             orientation='h',
-            marker_color = [colori[op] for op in g_op.Part],
+            #marker_color = [colori[op] for op in g_op.Part],
+            marker_color = 'white',
             text=g_op.Label
             
         )
