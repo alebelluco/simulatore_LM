@@ -461,7 +461,8 @@ with tab_gantt:
             x=test_gantt['Durata'],
             base=test_gantt['Minuto'],
             orientation='h',
-            marker_color = [('rgba' + dict_color[macc]) for macc in test_gantt.Macchina]
+            #marker_color = [('rgba' + dict_color[macc]) for macc in test_gantt.Macchina]
+            marker_color='pink'
         )
     )
     fig3.update_yaxes(autorange="reversed")
