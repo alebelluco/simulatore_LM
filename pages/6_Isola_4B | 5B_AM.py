@@ -105,7 +105,7 @@ with tab_input:
     with sx3:   
         codici_6 = db[(db.Isola == '4BAM') & (db.Macchina == 'Cemb5') ].Particolare.unique()
         pn6 = st.selectbox("Selezionare il codice per Cemb5", options=codici_6)
-        chiavi.append(f'4BAMJunker3{pn6}')
+        chiavi.append(f'4BAMCemb5{pn6}')
 
     with cx3:         
         codici_7 = db[(db.Isola == '4BAM') & (db.Macchina == 'Lasit2') ].Particolare.unique()
