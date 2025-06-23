@@ -1,5 +1,6 @@
-# Aggiornato 16/05/2024
+# Aggiornato 23/06/2024
 # Class machine isola 2: per visualizzare sul gantt il carico-scarico è stato aggiunto l'operatore a log_macchina sull'inizio caricamento nella funzionee working
+# Controlli turno multipli su isola 4-5 AM
 
 
 import pandas as pd
