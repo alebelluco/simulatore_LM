@@ -3575,7 +3575,7 @@ class Machine_robot_3AM(object):
 
 class Machine_isola5AM(object):
 
-    # chiama la funzione CQ_T
+    # chiama la funzione CQ_T_macchina_funzionante anzichè CQ_T
 
     def __init__(self, env, name,  part, tempo_ciclo, carico_scarico, #wip, part_in, part_out,
                  batch, 
@@ -3583,14 +3583,14 @@ class Machine_isola5AM(object):
                  op_cambio_ut,
                  off_cu, periodo_cu, t_cambio_ut, 
                  operatore1, operatore2,
-                 offset_cq1 = 0, periodo_cq1 = 0, tempo_ciclo_cq1 = 0, op_cq1=None, # controlli a frequenza
-                 offset_cq2 = 0, periodo_cq2= 0, tempo_ciclo_cq2 = 0, op_cq2=None,
-                 offset_cq3 = 0, periodo_cq3 = 0, tempo_ciclo_cq3 = 0, op_cq3=None,
-                 offset_cq4 = 0, periodo_cq4 = 0, tempo_ciclo_cq4 = 0, op_cq4=None,
-                 offset_cq5 = 0, periodo_cq5 = 0, tempo_ciclo_cq5 = 0, op_cq5=None,
-                 offset_ct1 = 0, tempo_ct1 = 0, op_ct1=None, # controlli 1/turno
-                 offset_ct2 = 0, tempo_ct2 = 0, op_ct2=None,
-                 offset_ct3 = 0, tempo_ct3 = 0, op_ct3=None,
+                 offset_cq1 = 0, periodo_cq1 = 0, tempo_ciclo_cq1 = 0, op_cq1=None, name_cq1 = 'CF1', # controlli a frequenza
+                 offset_cq2 = 0, periodo_cq2= 0, tempo_ciclo_cq2 = 0, op_cq2=None, name_cq2 = 'CF2',
+                 offset_cq3 = 0, periodo_cq3 = 0, tempo_ciclo_cq3 = 0, op_cq3=None, name_cq3 = 'CF3',
+                 offset_cq4 = 0, periodo_cq4 = 0, tempo_ciclo_cq4 = 0, op_cq4=None, name_cq4 = 'CF4',
+                 offset_cq5 = 0, periodo_cq5 = 0, tempo_ciclo_cq5 = 0, op_cq5=None, name_cq5 = 'CF5',
+                 offset_ct1 = 0, tempo_ct1 = 0, op_ct1=None, name_ct1 = 'CT1',# controlli 1/turno
+                 offset_ct2 = 0, tempo_ct2 = 0, op_ct2=None, name_ct2 = 'CT2',
+                 offset_ct3 = 0, tempo_ct3 = 0, op_ct3=None, name_ct3 = 'CT3',
                  tc_corr = 0, periodo_corr=0, op_corr=None,
                  tc_SAP = 0, periodo_SAP = 0, op_sap=None,
                  tc_part_in = 0, periodo_part_in = 0, op_in = None,
@@ -3641,11 +3641,15 @@ class Machine_isola5AM(object):
         #----------------------------------------------------
         try:
             self.op_ct1 =  self.link_op[op_ct1]
+            #st.write('op ct1')
+            #st.write(self.op_ct1)
+            #st.write(self.link_op[op_ct1])
         except:
             self.op_ct1 = None
         #----------------------------------------------------      
         try:
             self.op_ct2 =  self.link_op[op_ct2]
+
         except:
             self.op_ct2 = None
         #----------------------------------------------------
@@ -3747,6 +3751,16 @@ class Machine_isola5AM(object):
         self.periodo_cq4 = periodo_cq4
         self.periodo_cq5 = periodo_cq5 # se non ho il controllo non viene mai incrementato il contatore e non si attiva mai la funzione
 
+        self.name_cq1 = name_cq1
+        self.name_cq2 = name_cq2
+        self.name_cq3 = name_cq3
+        self.name_cq4 = name_cq4
+        self.name_cq5 = name_cq5
+
+        self.name_ct1 = name_ct1
+        self.name_ct2 = name_ct2
+        self.name_ct3 = name_ct3
+
         self.periodo_SAP = periodo_SAP
         self.periodo_part_in = periodo_part_in
         self.periodo_part_out = periodo_part_out
@@ -3818,23 +3832,23 @@ class Machine_isola5AM(object):
             #self.log.append('{} | {} | Fine ciclo '.format(env.now, self.name))
                  
             if self.qc_count1==self.periodo_cq1: #se è il pezzo da controllare                
-                self.env.process(CQ(self, self.env, self.op_cq1, self.tempo_ciclo_cq1, 'controllo qualità_Zeiss'))
+                self.env.process(CQ(self, self.env, self.op_cq1, self.tempo_ciclo_cq1, self.name_cq1))# 'controllo qualità_Zeiss'))
                 self.qc_count1=0
             
             if self.qc_count2==self.periodo_cq2: #se è il pezzo da controllare                
-                self.env.process(CQ(self, self.env, self.op_cq2, self.tempo_ciclo_cq2, 'controllo qualità_2'))
+                self.env.process(CQ(self, self.env, self.op_cq2, self.tempo_ciclo_cq2, self.name_cq2))# 'controllo qualità_2'))
                 self.qc_count2=0
             
             if self.qc_count3==self.periodo_cq3: #se è il pezzo da controllare                
-                self.env.process(CQ(self, self.env, self.op_cq3, self.tempo_ciclo_cq3, 'controllo qualità_3'))
+                self.env.process(CQ(self, self.env, self.op_cq3, self.tempo_ciclo_cq3, self.name_cq3))# 'controllo qualità_3'))
                 self.qc_count3=0
             
             if self.qc_count4==self.periodo_cq4: #se è il pezzo da controllare                
-                self.env.process(CQ(self, self.env, self.op_cq4, self.tempo_ciclo_cq4, 'controllo qualità_4'))
+                self.env.process(CQ(self, self.env, self.op_cq4, self.tempo_ciclo_cq4, self.name_cq4))# 'controllo qualità_4'))
                 self.qc_count4=0
             
             if self.qc_count5==self.periodo_cq5: #se è il pezzo da controllare                
-                self.env.process(CQ(self, self.env, self.op_cq5, self.tempo_ciclo_cq5, 'controllo qualità_5'))
+                self.env.process(CQ(self, self.env, self.op_cq5, self.tempo_ciclo_cq5, self.name_cq5))# 'controllo qualità_5'))
                 self.qc_count5=0
                                            
             if self.corr_count==self.periodo_corr:               
@@ -3862,18 +3876,19 @@ class Machine_isola5AM(object):
             self.turno_now = math.floor(self.env.now / 450)+1   
 
             if self.turno_now > self.turno:
-                self.env.process(CQ_T(self, self.env, self.op_ct1, self.tempo_ct1, self.offset_ct1, 'Controllo a turno_1')) # nella isola4-5  il controllo 1Tè come quello degli altri controlli a frequenza
-         
+                self.env.process(CQ_T(self, self.env, self.op_ct1, self.tempo_ct1, self.offset_ct1, self.name_ct1))# 'Controllo a turno_1')) # nella isola4-5  il controllo 1Tè come quello degli altri controlli a frequenza
+                
                 if self.op_ct2 != None:
-                    self.env.process(CQ_T(self, self.env, self.op_ct2, self.tempo_ct2, self.offset_ct2, 'Controllo a turno_2'))
+                    self.env.process(CQ_T(self, self.env, self.op_ct2, self.tempo_ct2, self.offset_ct2, self.name_ct2))# 'Controllo a turno_2'))
 
                 if self.op_ct2 != None:
-                    self.env.process(CQ_T(self, self.env, self.op_ct3, self.tempo_ct3, self.offset_ct3, 'Controllo a turno_3'))
-
-
+                    self.env.process(CQ_T(self, self.env, self.op_ct3, self.tempo_ct3, self.offset_ct3, self.name_ct3))#'Controllo a turno_3'))
 
                 
-                self.turno = self.turno_now 
+                self.turno = self.turno_now
+
+
+
                 #self.link[self.op_ct1][0] += self.tempo_ct1 # aggiungo solo la  quota saturazione, non chiamo la funzione seno fa controllo che ferma le macchiine
                 # devo mettere anche gli altri controlli, ma solo se esistono : condizione if qualcosa is not None -----------------------------------------
 #***controllo turno                
@@ -3893,19 +3908,6 @@ class Machine_isola5AM(object):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 def carica_info_macchina(mac, db_utensili):
     
     # recupero info cq
@@ -3916,10 +3918,11 @@ def carica_info_macchina(mac, db_utensili):
             t = controlli[j]['durata']
             f = controlli[j]['periodo']
             o = controlli[j]['op']
+            n = controlli[j]['task']
 
-            list_controlli.append((f,t,o))
+            list_controlli.append((f,t,o,n))
         except:
-            list_controlli.append((None,None,None))
+            list_controlli.append((None,None,None,None))
 
     # recupero info controlli 1 a turno 
         turno = mac['Turno']
@@ -3928,9 +3931,10 @@ def carica_info_macchina(mac, db_utensili):
             try:
                 turno_t = turno[j]['durata']
                 ot = turno[j]['op']
-                list_turno.append((turno_t,ot))
+                nome = turno[j]['task']
+                list_turno.append((turno_t,ot,nome))
             except:
-                list_turno.append((None,None))
+                list_turno.append((None,None,None))
 
         other = mac['Other']
 
