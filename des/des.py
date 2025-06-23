@@ -3862,6 +3862,16 @@ class Machine_isola5AM(object):
 
             if self.turno_now > self.turno:
                 self.env.process(CQ_T(self, self.env, self.op_ct1, self.tempo_ct1, self.offset_ct1, 'Controllo a turno_1')) # nella isola4-5  il controllo 1Tè come quello degli altri controlli a frequenza
+         
+                if self.op_ct2 != None:
+                    self.env.process(CQ_T(self, self.env, self.op_ct2, self.tempo_ct2, self.offset_ct2, 'Controllo a turno_2'))
+
+                if self.op_ct2 != None:
+                    self.env.process(CQ_T(self, self.env, self.op_ct3, self.tempo_ct3, self.offset_ct3, 'Controllo a turno_3'))
+
+
+
+                
                 self.turno = self.turno_now 
                 #self.link[self.op_ct1][0] += self.tempo_ct1 # aggiungo solo la  quota saturazione, non chiamo la funzione seno fa controllo che ferma le macchiine
                 # devo mettere anche gli altri controlli, ma solo se esistono : condizione if qualcosa is not None -----------------------------------------
